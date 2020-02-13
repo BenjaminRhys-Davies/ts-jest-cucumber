@@ -1,30 +1,48 @@
-// Mocks
-const dateTime = '2020-02-21T09:07:19.309Z';
-const dateMockResult = new Date(dateTime);
-const DateStub = class extends Date {
-  constructor() {
-    super();
+// Under test
+import { date } from './date';
 
-    return dateMockResult;
-  }
+const mockDateMock = (date: Date = new Date()) => {
+  const OriginalDate = Date;
+
+  return class MockDate extends Date {
+    constructor(d?: string | number | Date) {
+      super();
+
+      return d ? new OriginalDate(d) : date;
+    }
+  };
 };
 
+const nowDateTime = '1977-11-04T09:07:19.309Z';
+
 Object.defineProperty(global, 'Date', {
-  value: DateStub,
+  value: mockDateMock(new Date(nowDateTime)),
   writable: true,
 });
 
-// Under test
-import { now } from './date';
+describe('date ()', () => {
+  describe('should return', () => {
+    describe('a fixed', () => {
+      beforeEach(() => {});
 
-describe('now ()', () => {
-  describe('returns', () => {
-    it('a date object', () => {
-      expect(now()).toEqual(dateMockResult);
+      it('date object', () => {
+        expect(date()).toEqual(new Date(nowDateTime));
+      });
+
+      it('with expected dateTime', () => {
+        expect(date().toISOString()).toEqual(nowDateTime);
+      });
     });
+    describe('a dynamic', () => {
+      const dynamicDateTime = '2020-02-13T12:40:29.139Z';
 
-    it('with dateTime', () => {
-      expect(now().toISOString()).toEqual(dateTime);
+      it('date object', () => {
+        expect(date(dynamicDateTime)).toEqual(new Date(dynamicDateTime));
+      });
+
+      it('with expected dateTime', () => {
+        expect(date(dynamicDateTime).toISOString()).toEqual(dynamicDateTime);
+      });
     });
   });
 });

@@ -39,19 +39,5 @@
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   },
-  "dependencies": {},
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "coverageDirectory": "./coverage",
-    "collectCoverageFrom": [
-      "src/**/*.{js,ts}",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!**/coverage/**"
-    ],
-    "modulePaths": [
-      "./"
-    ]
-  }
+  "dependencies": {}
 }

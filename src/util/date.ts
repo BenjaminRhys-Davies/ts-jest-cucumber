@@ -1,1 +1,1 @@
-export const now = () => new Date();
+export const date = (value?: number | string | Date) => new Date(value);
